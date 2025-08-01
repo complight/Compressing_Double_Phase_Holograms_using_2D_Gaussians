@@ -14,40 +14,53 @@ class GaussianImage_Cholesky(nn.Module):
         self.loss_type = loss_type
         self.init_num_points = kwargs["num_points"]
         self.H, self.W = kwargs["H"], kwargs["W"]
-        self.BLOCK_W, self.BLOCK_H = kwargs["BLOCK_W"], kwargs["BLOCK_H"]
-        self.tile_bounds = (
+
+        # For rasterization (each block rasterizes its related Gaussian points)
+        self.BLOCK_W, self.BLOCK_H = kwargs["BLOCK_W"], kwargs["BLOCK_H"] 
+        # Count the blocks
+        self.tile_bounds = (                                              
             (self.W + self.BLOCK_W - 1) // self.BLOCK_W,
             (self.H + self.BLOCK_H - 1) // self.BLOCK_H,
-            1,
-        ) # 
+            1, # 2D image - number of block in depth (z) is 1
+        )
         self.device = kwargs["device"]
 
-        self._xyz = nn.Parameter(torch.atanh(2 * (torch.rand(self.init_num_points, 2) - 0.5)))
-        self._cholesky = nn.Parameter(torch.rand(self.init_num_points, 3))
-        self.register_buffer('_opacity', torch.ones((self.init_num_points, 1)))
-        self._features_dc = nn.Parameter(torch.rand(self.init_num_points, 3))
+        # Initialization - parameters
+        self._xyz = nn.Parameter(torch.atanh(2 * (torch.rand(self.init_num_points, 2) - 0.5))) # central position [-1,1) -> (-ing, inf)
+        self._cholesky = nn.Parameter(torch.rand(self.init_num_points, 3)) # parameters (lower triangle)
+        self.register_buffer('_opacity', torch.ones((self.init_num_points, 1))) # opacity (non-learnable)
+        self._features_dc = nn.Parameter(torch.rand(self.init_num_points, 3)) # color
         self.last_size = (self.H, self.W)
         self.quantize = kwargs["quantize"]
-        self.register_buffer('background', torch.ones(3))
-        self.opacity_activation = torch.sigmoid
-        self.rgb_activation = torch.sigmoid
-        self.register_buffer('bound', torch.tensor([0.5, 0.5]).view(1, 2))
+        self.register_buffer('background', torch.ones(3))# background color (usually one color)
+        # Constrain ranges of value
+        self.opacity_activation = torch.sigmoid #  opacity
+        self.rgb_activation = torch.sigmoid # colors
+        # Fixed constrain of boundary
+        self.register_buffer('bound', torch.tensor([0.5, 0.5]).view(1, 2)) 
         self.register_buffer('cholesky_bound', torch.tensor([0.5, 0, 0.5]).view(1, 3))
 
+        # Initialization - Quantizer
         if self.quantize:
             self.xyz_quantizer = FakeQuantizationHalf.apply 
             self.features_dc_quantizer = VectorQuantizer(codebook_dim=3, codebook_size=8, num_quantizers=2, vector_type="vector", kmeans_iters=5) 
             self.cholesky_quantizer = UniformQuantizer(signed=False, bits=6, learned=True, num_channels=3)
+            # To project the continuous float onto discrete quantization level
 
+        # Initialization - optimizer
         if kwargs["opt_type"] == "adam":
             self.optimizer = torch.optim.Adam(self.parameters(), lr=kwargs["lr"])
         else:
             self.optimizer = Adan(self.parameters(), lr=kwargs["lr"])
+        # Reduce to 1/2 each 20k iter
         self.scheduler = torch.optim.lr_scheduler.StepLR(self.optimizer, step_size=20000, gamma=0.5)
 
+    # Analyze the distribution of three values in lower triangle matrix
+    # To initialize the quantizer
     def _init_data(self):
         self.cholesky_quantizer._init_data(self._cholesky)
 
+    # Argument parser to retrieve parameters
     @property
     def get_xyz(self):
         return torch.tanh(self._xyz)
@@ -62,20 +75,30 @@ class GaussianImage_Cholesky(nn.Module):
 
     @property
     def get_cholesky_elements(self):
-        return self._cholesky+self.cholesky_bound
+        return self._cholesky + self.cholesky_bound  # shape remains [N, 3]
+
 
     def forward(self):
+        # Calculate the parameters of Gaussian Projection
         self.xys, depths, self.radii, conics, num_tiles_hit = project_gaussians_2d(self.get_xyz, self.get_cholesky_elements, self.H, self.W, self.tile_bounds)
+        
+        # Generate image by rasterizing Gaussian distribution
         out_img = rasterize_gaussians_sum(self.xys, depths, self.radii, conics, num_tiles_hit,
                 self.get_features, self._opacity, self.H, self.W, self.BLOCK_H, self.BLOCK_W, background=self.background, return_alpha=False)
-        out_img = torch.clamp(out_img, 0, 1) #[H, W, 3]
+        # [H, W, 3] with ranging [0, 1]
+        # out_img = torch.clamp(out_img, 0, 1) 
+        out_img = torch.sin(out_img)/2. + 0.5 #!MODIFIED
         out_img = out_img.view(-1, self.H, self.W, 3).permute(0, 3, 1, 2).contiguous()
         return {"render": out_img}
 
     def train_iter(self, gt_image):
         render_pkg = self.forward()
         image = render_pkg["render"]
+
         loss = loss_fn(image, gt_image, self.loss_type, lambda_value=0.7)
+        # for name, param in self.named_parameters():
+        #     print(f"{name} grad: {param.requires_grad}, max_grad: {param.grad.max() if param.grad is not None else 'None'}， min_grad: {param.grad.min() if param.grad is not None else 'None'}")
+
         loss.backward()
         with torch.no_grad():
             mse_loss = F.mse_loss(image, gt_image)

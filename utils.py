@@ -10,9 +10,7 @@ class LogWriter:
         self.file_path = os.path.join(file_path, "train.txt" if train else "test.txt")
 
     def write(self, text):
-        # 打印到控制台
         print(text)
-        # 追加到文件
         with open(self.file_path, 'a') as file:
             file.write(text + '\n')
 
@@ -23,6 +21,13 @@ def loss_fn(pred, target, loss_type='L2', lambda_value=0.7):
     target  = target.float()
     if loss_type == 'L2':
         loss = F.mse_loss(pred, target)
+
+        # import odak
+        # diff_x, diff_y = odak.learn.tools.spatial_gradient(pred)
+        # gt_diff_x, gt_diff_y = odak.learn.tools.spatial_gradient(target)
+        # loss += F.mse_loss(diff_x, gt_diff_x)
+        # loss += F.mse_loss(diff_y, gt_diff_y)
+
     elif loss_type == 'L1':
         loss = F.l1_loss(pred, target)
     elif loss_type == 'SSIM':

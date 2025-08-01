@@ -1,9 +1,9 @@
-from vector_quantize_pytorch import VectorQuantize, ResidualVQ
+# from vector_quantize_pytorch import VectorQuantize, ResidualVQ
 import torch
 from torch import nn
 from utils import *
 import torch.nn.functional as F
-import constriction
+# import constriction
 import numpy as np
 
 def grad_scale(x, scale):

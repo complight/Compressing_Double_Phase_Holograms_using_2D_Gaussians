@@ -1,6 +1,5 @@
 from gsplat.project_gaussians_2d_scale_rot import project_gaussians_2d_scale_rot
 from gsplat.rasterize_sum import rasterize_gaussians_sum
-from pytorch_msssim import SSIM
 from utils import *
 import torch
 import torch.nn as nn
@@ -75,7 +74,9 @@ class GaussianImage_RS(nn.Module):
         self.xys, depths, self.radii, conics, num_tiles_hit = project_gaussians_2d_scale_rot(self.get_xyz, self.get_scaling, self.get_rotation, self.H, self.W, self.tile_bounds)
         out_img = rasterize_gaussians_sum(self.xys, depths, self.radii, conics, num_tiles_hit,
                 self.get_features, self.get_opacity, self.H, self.W, self.BLOCK_H, self.BLOCK_W, background=self.background, return_alpha=False)
-        out_img = torch.clamp(out_img, 0, 1) #[H, W, 3]
+        # [H, W, 3] with ranging [0, 1]
+        # out_img = torch.clamp(out_img, 0, 1)
+        out_img = torch.sin(out_img)/2. + 0.5 #!MODIFIED
         out_img = out_img.view(-1, self.H, self.W, 3).permute(0, 3, 1, 2).contiguous()
         return {"render": out_img}
 
