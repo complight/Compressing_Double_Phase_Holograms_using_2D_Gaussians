@@ -2,6 +2,7 @@
 This project is based on the gsplat submodule, which has been licensed under the MIT License. You can get started by:
 
 <pre>
+git submodule update --init --recursive
 cd gsplat
 pip install .[dev]
 cd ../
@@ -42,7 +43,7 @@ After training, you can find the combination of compressed patches and the corre
 ./checkpoints/samplehologram/GaussianImage_RS_70000_200/results # Using RS factorization with 200 Gaussians and 70000 epochs for training
 </pre>
 
-For a more detailed analysis, you can also find the statistical plots of parameter changes throughout the training process in the '/stat_plots' folder, and the plots of quality metrics (PSNR, SSIM) versus compression ratio in the '/quality_plots' folder. Their directories are as follows:(Use Sample Hologram Police Dog with a 64 patch size as example)
+For a more detailed analysis, you can find the statistical plots showing parameter changes throughout the training process in the `/stat_plots` folder. Additionally, plots of quality metrics (PSNR, SSIM) versus compression ratio can be found in the `/quality_plots` folder. As an example, for the sample hologram Police Dog with a patch size of 64 using Cholesky factorization, the corresponding directories are as follows:
 
 <pre>
 |--checkpoints
