@@ -2,7 +2,8 @@
 This project is based on the gsplat submodule, which has been licensed under the MIT License. You can get started by:
 
 <pre>
-git submodule update --init --recursive
+cd Gaussgram-main
+git clone https://github.com/XingtongGe/gsplat.git
 cd gsplat
 pip install .[dev]
 cd ../
