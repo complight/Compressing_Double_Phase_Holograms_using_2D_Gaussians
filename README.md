@@ -94,4 +94,4 @@ checkpoints/
   year      = {2026},
   note      = {to appear}
 }
-'''
+```
