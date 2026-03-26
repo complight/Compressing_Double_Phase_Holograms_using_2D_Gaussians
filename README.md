@@ -5,7 +5,6 @@ Xiaoyue Fan, [Yicheng Zhan](https://albertgary.github.io/), [Amrita Mazumdar](ht
 *Eurographics 2026 Poster Track — Aachen, Germany, May 2026*
 
 ![teaser](assets/compressing_dph_gs.png)
----
 
 ## Getting Started
 
