@@ -1,6 +1,7 @@
 <div align="center">
  
-# Compressing Double-Phase Holograms using 2D Gaussians
+# Compressing Double-Phase Holograms 
+# using 2D Gaussians
  
 Xiaoyue Fan, [Yicheng Zhan](https://albertgary.github.io/), [Amrita Mazumdar](https://amritamaz.net/), [Kaan Akşit](https://www.kaanaksit.com/)
 
