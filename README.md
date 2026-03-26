@@ -1,8 +1,6 @@
 # Compressing Double-Phase Holograms using 2D Gaussians
  
 Xiaoyue Fan, [Yicheng Zhan](https://albertgary.github.io/), [Amrita Mazumdar](https://amritamaz.net/), [Kaan Akşit](https://www.kaanaksit.com/)
- 
-*Eurographics 2026 Poster Track — Aachen, Germany, May 2026*
 
 <img src="assets/compressing_dph_gs.png" width="80%" alt="teaser">
 
@@ -81,17 +79,4 @@ checkpoints/
 > `./checkpoints/samplehologram/GaussianImage_Cholesky_70000_200/results`
 
 ---
-
-## Citation
-
-```bibtex
-@inproceedings{fan2026compressing,
-  author    = {Xiaoyue Fan and Yicheng Zhan and Amrita Mazumdar and Kaan Ak{\c{s}}it},
-  title     = {Compressing Double-Phase Holograms using 2D Gaussians},
-  booktitle = {Eurographics 2026 Poster Track},
-  year      = {2026},
-  location  = {Aachen, Germany},
-  month     = {May}
-}
-```
 
