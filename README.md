@@ -3,8 +3,6 @@
 Xiaoyue Fan, Yicheng Zhan, Amrita Mazumdar, Kaan Akşit
  
 *Eurographics 2026 Poster Track — Aachen, Germany, May 2026*
- 
-[[Project Page]](https://complightlab.com/publications/compressing_double_phase_gs)
 
 ---
 
