@@ -6,19 +6,6 @@ Xiaoyue Fan, Yicheng Zhan, Amrita Mazumdar, Kaan Akşit
 
 ---
 
-## Citation
-
-```bibtex
-@inproceedings{fan2026compressing,
-  author    = {Xiaoyue Fan and Yicheng Zhan and Amrita Mazumdar and Kaan Ak{\c{s}}it},
-  title     = {Compressing Double-Phase Holograms using 2D Gaussians},
-  booktitle = {Eurographics 2026 Poster Track},
-  year      = {2026},
-  location  = {Aachen, Germany},
-  month     = {May}
-}
-```
-
 ## Getting Started
 
 This project is based on the [gsplat](https://github.com/XingtongGe/gsplat) submodule, licensed under the MIT License.
@@ -94,4 +81,17 @@ checkpoints/
 > `./checkpoints/samplehologram/GaussianImage_Cholesky_70000_200/results`
 
 ---
+
+## Citation
+
+```bibtex
+@inproceedings{fan2026compressing,
+  author    = {Xiaoyue Fan and Yicheng Zhan and Amrita Mazumdar and Kaan Ak{\c{s}}it},
+  title     = {Compressing Double-Phase Holograms using 2D Gaussians},
+  booktitle = {Eurographics 2026 Poster Track},
+  year      = {2026},
+  location  = {Aachen, Germany},
+  month     = {May}
+}
+```
 
