@@ -2,7 +2,7 @@
  
 # Compressing Double-Phase Holograms <br> using 2D Gaussians
  
-Xiaoyue Fan, [Yicheng Zhan](https://albertgary.github.io/), [Amrita Mazumdar](https://amritamaz.net/), [Kaan Akşit](https://www.kaanaksit.com/)
+[Xiaoyue Fan](https://merryxyfan.github.io/), [Yicheng Zhan](https://albertgary.github.io/), [Amrita Mazumdar](https://amritamaz.net/), [Kaan Akşit](https://www.kaanaksit.com/)
 
 <img src="assets/compressing_dph_gs.png" width="80%" alt="teaser">
 
