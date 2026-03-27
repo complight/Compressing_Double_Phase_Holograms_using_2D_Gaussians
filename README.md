@@ -88,10 +88,11 @@ checkpoints/
  
 ```bibtex
 @inproceedings{fan2026comdph2dgs,
+  booktitle = {Eurographics 2026 - Posters},
   title     = {Compressing Double-Phase Holograms using 2D Gaussians},
   author    = {Fan, Xiaoyue and Zhan, Yicheng and Mazumdar, Amrita and Ak{\c{s}}it, Kaan},
-  booktitle = {Eurographics 2026 (Poster Track)},
   year      = {2026},
-  note      = {to appear}
+  publisher = {The Eurographics Association},
 }
-```
+```     
+
