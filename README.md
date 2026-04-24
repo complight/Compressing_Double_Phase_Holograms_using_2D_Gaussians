@@ -4,7 +4,9 @@
 
 **EUROGRAPHICS 2026**
 
-[Xiaoyue Fan](https://merryxyfan.github.io/), [Yicheng Zhan](https://albertgary.github.io/), [Amrita Mazumdar](https://amritamaz.net/), [Kaan Akşit](https://www.kaanaksit.com/)
+[Xiaoyue Fan](https://merryxyfan.github.io/)<sup>1</sup>, [Yicheng Zhan](https://albertgary.github.io/)<sup>1</sup>, [Amrita Mazumdar](https://amritamaz.net/)<sup>2</sup>, [Kaan Akşit](https://www.kaanaksit.com/)<sup>1</sup>
+
+<sup>1</sup> University College London (UCL) &emsp; <sup>2</sup> NVIDIA
 
 <img src="assets/compressing_dph_gs.png" width="80%" alt="teaser">
 
